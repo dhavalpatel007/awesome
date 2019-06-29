@@ -21,16 +21,16 @@ theme.font                                      = "Noto Sans Regular 11"
 theme.taglist_font                              = "Noto Sans Regular 13"
 theme.menu_bg_normal                            = "#000000"
 theme.menu_bg_focus                             = "#000000"
-theme.bg_normal                                 = "#000000"
+theme.bg_normal                                 = "#00000000"
 theme.bg_focus                                  = "#000000"
 theme.bg_urgent                                 = "#000000"
 theme.fg_normal                                 = "#aaaaaa"
 theme.fg_focus                                  = "#ff8c00"
 theme.fg_urgent                                 = "#af1d18"
 theme.fg_minimize                               = "#ffffff"
-theme.border_width                              = dpi(2)
+theme.border_width                              = dpi(1)
 theme.border_normal                             = "#1c2222"
-theme.border_focus                              = "#606060"
+theme.border_focus                              = "#454599"
 theme.border_marked                             = "#3ca4d8"
 theme.menu_border_width                         = 0
 theme.menu_height                               = dpi(25)
@@ -299,7 +299,7 @@ function theme.at_screen_connect(s)
     layout   = {
         spacing_widget = {
             {
-                forced_width  = 5,
+                forced_width  = 0,
                 --forced_height = 24,
                 thickness     = 1,
                 color         = '#777777',
@@ -326,7 +326,7 @@ function theme.at_screen_connect(s)
                 id     = 'clienticon',
                 widget = awful.widget.clienticon,
             },
-            margins = 5,
+            margins = 2,
             widget  = wibox.container.margin
         },
         nil,
@@ -338,7 +338,7 @@ function theme.at_screen_connect(s)
 }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s, height = dpi(24), bg = "#00000050", fg = theme.fg_normal })
+    s.mywibox = awful.wibar({ position = "top", screen = s, height = dpi(22), bg = "#00000050", fg = theme.fg_normal })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
