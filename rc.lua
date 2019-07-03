@@ -131,8 +131,8 @@ awful.util.tagnames = {  "➊", "➋", "➌", "➍", "➎", "➏", "➐", "➑",
 --awful.util.tagnames = { "", "", "", "", "" }
 awful.layout.suit.tile.left.mirror = true
 awful.layout.layouts = {
-    awful.layout.suit.floating,
-    --awful.layout.suit.tile,
+    --awful.layout.suit.floating,
+    awful.layout.suit.tile,
     --awful.layout.suit.tile.left,
     --awful.layout.suit.tile.bottom,
     --awful.layout.suit.tile.top,
@@ -140,8 +140,8 @@ awful.layout.layouts = {
     --awful.layout.suit.fair.horizontal,
     --awful.layout.suit.spiral,
     --awful.layout.suit.spiral.dwindle,
-    --awful.layout.suit.max,
-    --awful.layout.suit.max.fullscreen,
+    awful.layout.suit.max,
+    awful.layout.suit.max.fullscreen,
     --awful.layout.suit.magnifier,
     --awful.layout.suit.corner.nw,
     --awful.layout.suit.corner.ne,
@@ -889,12 +889,12 @@ root.keys(globalkeys)
 awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
-      properties = { border_width = beautiful.border_width,
+    properties = { border_width = beautiful.border_width,
                      border_color = beautiful.border_normal,
                      focus = awful.client.focus.filter,
                      raise = true,
                      keys = clientkeys,
-		     floating = true,
+		     --floating = true,
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen,
@@ -1055,7 +1055,9 @@ client.connect_signal("manage", function (c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
     -- if not awesome.startup then awful.client.setslave(c) end
-
+    c.shape = function(cr,w,h)
+	    gears.shape.rounded_rect(cr,w,h,3)
+    end
     if awesome.startup and
       not c.size_hints.user_position
       and not c.size_hints.program_position then

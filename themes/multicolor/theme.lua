@@ -21,15 +21,15 @@ theme.font                                      = "Noto Sans Regular 11"
 theme.taglist_font                              = "Noto Sans Regular 13"
 theme.menu_bg_normal                            = "#000000"
 theme.menu_bg_focus                             = "#000000"
-theme.bg_normal                                 = "#00000000"
+theme.bg_normal                                 = "#000000"
 theme.bg_focus                                  = "#000000"
 theme.bg_urgent                                 = "#000000"
 theme.fg_normal                                 = "#aaaaaa"
 theme.fg_focus                                  = "#ff8c00"
 theme.fg_urgent                                 = "#af1d18"
 theme.fg_minimize                               = "#ffffff"
-theme.border_width                              = dpi(1)
-theme.border_normal                             = "#1c2222"
+theme.border_width                              = dpi(0)
+theme.border_normal                             = "#F8D800"
 theme.border_focus                              = "#454599"
 theme.border_marked                             = "#3ca4d8"
 theme.menu_border_width                         = 0
@@ -172,7 +172,8 @@ local cpu = lain.widget.cpu({
 local tempicon = wibox.widget.imagebox(theme.widget_temp)
 local temp = lain.widget.temp({
     settings = function()
-        widget:set_markup(markup.fontfg(theme.font, "#f1af5f", coretemp_now .. "°C "))
+        widget:set_markup(markup.fontfg(theme.font, "#000050",markup.small(coretemp_now .. "°C ")))
+        --widget:set_markup(markup.colorize(theme.font,coretemp_now .. "°C "))
     end
 })
 
@@ -186,7 +187,7 @@ local bat = lain.widget.bat({
             perc = perc .. " plug"
         end
 
-        widget:set_markup(markup.fontfg(theme.font, theme.fg_normal, perc .. " "))
+        widget:set_markup(markup.fontfg(theme.font,"#000020", markup.small(perc .. " ")))
     end
 })
 
@@ -338,14 +339,14 @@ function theme.at_screen_connect(s)
 }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s, height = dpi(22), bg = "#00000050", fg = theme.fg_normal })
+    s.mywibox = awful.wibar({ position = "bottom", screen = s, height = dpi(22), bg = "#00000077", fg = theme.fg_normal })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            --s.mylayoutbox,
+            s.mylayoutbox,
             s.mytasklist,
             s.mypromptbox,
         },
@@ -370,9 +371,9 @@ function theme.at_screen_connect(s)
             weathericon,
             theme.weather.widget,
             tempicon,
-            temp.widget,
+            placeholder("#f8d800",temp.widget),
             baticon,
-            bat.widget,
+            placeholder("#28c76f",bat.widget),
             clockicon,
             mytextclock,
             wibox.widget.systray(),
@@ -394,7 +395,27 @@ function theme.at_screen_connect(s)
     --        layout = wibox.layout.fixed.horizontal,
     --        s.mylayoutbox,
     --    },
-    -- R}
+    -- }
+end
+
+function placeholder(color,wid)
+	return {
+		{
+			bg = color,
+			{
+				wid,
+                --margins = 2,
+                left = 8,
+                right = 8,
+				widget = wibox.container.margin
+            },
+            shape = function(cr,w,h)
+                gears.shape.rounded_rect(cr,w,h,4) end,
+			widget = wibox.container.background
+		},
+		margins = 2,
+		widget = wibox.container.margin
+	}
 end
 
 return theme
